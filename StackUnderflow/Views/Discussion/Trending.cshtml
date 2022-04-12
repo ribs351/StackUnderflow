@@ -1,0 +1,63 @@
+﻿@model List<DiscussionIndexModel>
+
+<div class="w3-row w3-padding-64">
+    <div class="w3-twothird w3-container">
+        <div class="w3-row">
+            <a class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding" asp-controller="Article" asp-action="Trending">Articles</a>
+            <a class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding w3-border-red" asp-controller="Discussion" asp-action="Trending">Discussions</a>
+        </div>
+        @foreach (var discussion in Model)
+        {
+            <div class="w3-row w3-border-bottom">
+                <p><small>Author: <a href="#"> @discussion.UserName</a> posted at: @discussion.DatePosted.ToString("dd/MM/yyyy hh:mm:ss tt")</small></p>
+                <h3>
+                    <a class="w3-text-blue w3-hover-red" style="text-decoration: none" asp-controller="Discussion" asp-action="Discussion" asp-route-id="@discussion.Id">@discussion.DiscussionName</a>
+                </h3>
+                <p>
+                    Tags:
+                    @foreach (var tag in discussion.Tags)
+                    {
+                        <a class="w3-tag w3-teal w3-hover-red" asp-controller="Discussion" asp-action="DiscussionByTag" asp-route-id="@tag.Id">@tag.Name</a>
+                    }
+
+                </p>
+                <p>
+                    <span class="w3-tooltip">
+                        <i class="fas fa-eye"></i><span class="w3-text w3-tag w3-white w3-animate-opacity">Lượt xem:</span>@discussion.ViewCount
+                    </span>
+                    <span class="w3-tooltip">
+                        <i class="fas fa-bookmark"></i><span class="w3-text w3-tag w3-white w3-animate-opacity">Bookmark:</span>@discussion.BookmarkCount
+                    </span>
+                    <span class="w3-tooltip">
+                        <i class="fas fa-comments"></i><span class="w3-text w3-tag w3-white w3-animate-opacity">Bình luận:</span>@discussion.CommentCount
+                    </span>
+                </p>
+            </div>
+        }
+
+
+
+    </div>
+
+</div>
+
+
+<!-- Pagination -->
+<div class="w3-center w3-padding-32">
+    <div class="w3-bar">
+        @if (ViewBag.PageNumber > 1)
+        {
+            @Html.ActionLink("<", "Trending", "Discussion", new { pageNumber = ViewBag.PageNumber - 1 }, new { @class = "w3-button w3-green" })
+        }
+        @for (int i = 1; i <= ViewBag.PageCount; i++)
+        {
+            string activeClass = i == ViewBag.PageNumber ? "w3-button w3-green" : "w3-button w3-hover-teal";
+            @Html.ActionLink(i.ToString(), "Trending", "Discussion", new { pageNumber = i }, new { @class = activeClass })
+        }
+        @if (ViewBag.NextPage)
+        {
+            @Html.ActionLink(">", "Trending", "Discussion", new { pageNumber = ViewBag.PageNumber + 1 }, new { @class = "w3-button w3-green" })
+        }
+
+    </div>
+</div>

@@ -1,0 +1,31 @@
+﻿<div class="w3-row w3-padding-64">
+    <form class="w3-container w3-card-4" asp-controller="Account" asp-action="Register" method="post">
+        <p>
+            <label>Username</label>
+            <input class="w3-input" type="text" style="width:90%" name="username" required>
+        </p>
+        <p>
+            <label>Email</label>
+            <input class="w3-input" type="email" style="width:90%" name="email" required>
+        </p>
+        <p>
+            <label>First Name</label>
+            <input class="w3-input" type="text" style="width:90%" name="firstname" required>
+        </p>
+        <p>
+            <label>Last Name</label>
+            <input class="w3-input" type="text" style="width:90%" name="lastname" required>
+        </p>
+        <p>
+            <label>Date of birth</label>
+            <input class="w3-input" type="datetime-local" style="width:90%" name="dob" required>
+        </p>
+        <p>
+            <label>Password</label>
+            <input class="w3-input" type="password" style="width:90%" name="password" required>
+        </p>
+        <p>
+            <button class="w3-button w3-section w3-teal w3-ripple" type="submit"> Đăng kí </button>
+        </p>
+    </form>
+</div>

@@ -1,0 +1,60 @@
+﻿<div class="w3-row w3-padding-32">
+    <div class="w3-container">
+        <h1 class="w3-text-green w3-border-bottom">Tìm kiếm theo tag</h1>
+        <div class="w3-row">
+            <a href="javascript:void(0)" onclick="openCity(event, 'Article');">
+                <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding w3-border-red">Article</div>
+            </a>
+            <a href="javascript:void(0)" onclick="openCity(event, 'Discussion');">
+                <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Discussion</div>
+            </a>
+        </div>
+
+        <div id="Article" class="w3-container city">
+            <h2>Article Search</h2>
+            <form asp-controller="Article" asp-action="SearchResult" method="get">
+                <label class="w3-text-teal"><b>Từ khóa</b></label>
+                <br>
+                <input type="text" class="w3-input w3-border" style="width:30%" name="SearchString" value="@ViewBag.SearchString" placeholder="Tìm theo từ khóa" />
+                <label class="w3-text-teal"><b>Chọn tag tìm kiếm</b></label>
+                <br>
+                <input type="text" class="w3-input w3-border" style="width:30%" name="TagName" value="@ViewBag.TagName" placeholder="Tìm theo tag" />
+                <br>
+                <input type="submit" class="w3-button w3-green w3-hover-red" value="Search" />
+            </form>
+
+        </div>
+
+        <div id="Discussion" class="w3-container city" style="display:none">
+            <h2>Discussion Search</h2>
+            <form asp-controller="Discussion" asp-action="SearchResult" method="get">
+                <label class="w3-text-teal"><b>Từ khóa</b></label>
+                <br>
+                <input type="text" class="w3-input w3-border" style="width:30%" name="SearchString" value="@ViewBag.SearchString" placeholder="Tìm theo từ khóa" />
+                <label class="w3-text-teal"><b>Chọn tag tìm kiếm</b></label>
+                <br>
+                <input type="text" class="w3-input w3-border" style="width:30%" name="TagName" value="@ViewBag.TagName" placeholder="Tìm theo tag" />
+                <br>
+                <input type="submit" class="w3-button w3-green w3-hover-red" value="Search" />
+            </form>
+        </div>
+
+    </div>
+    <script>
+        function openCity(evt, cityName) {
+            var i, x, tablinks;
+            x = document.getElementsByClassName("city");
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablink");
+            for (i = 0; i < x.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" w3-border-red", "");
+            }
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.firstElementChild.className += " w3-border-red";
+        }
+    </script>
+</div>
+
+<div style="margin-top:200px"></div>

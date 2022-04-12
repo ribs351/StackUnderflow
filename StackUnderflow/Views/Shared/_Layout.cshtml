@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>StackUnderflow</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="~/js/ckeditor5-build-classic/ckeditor.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-green.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <script src="https://kit.fontawesome.com/574c637824.js" crossorigin="anonymous"></script>
+    <style>
+        html, body, h1, h2, h3, h4, h5, h6 {
+            font-family: "Roboto", sans-serif;
+        }
+
+        .w3-sidebar {
+            z-index: 3;
+            width: 250px;
+            top: 43px;
+            bottom: 0;
+            height: inherit;
+        }
+
+        .fa-input {
+            font-family: FontAwesome, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        .ck-editor__editable_inline {
+            min-height: 300px;
+        }
+        #discussionbox {
+            height: 100%;
+            width: 100%;
+            overflow: auto;
+        }
+        #articlebox {
+            height: 100%;
+            width: 100%;
+            overflow: auto;
+        }
+        .results {
+            height: 560px;
+            width: 100%;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="w3-top">
+        <div class="w3-bar w3-theme-dark w3-top w3-left-align w3-large">
+            <a class="w3-bar-item w3-button w3-right w3-hide-large w3-hover-white w3-large w3-theme-d4"
+               href="javascript:void(0)" onclick="w3_open()"><i class="fas fa-bars"></i></a>
+            <a asp-controller="Home" asp-action="Index" class="w3-bar-item w3-button w3-theme-d4"><i class="fab fa-jedi-order"></i> StackUnderflow</a>
+            <form asp-controller="Home" asp-action="SimpleSearch" method="get">
+                <input type="submit" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red fa-input" value="&#xf002;" />
+                <input id="Search" type="text" name="SearchString" class="w3-bar-item w3-input w3-right w3-hide-small w3-light-grey" placeholder="Tìm kiếm">
+            </form>
+
+            @if (User.Identity.Name != null)
+            {
+                <a class="w3-bar-item w3-button w3-hide-small w3-hover-white w3-right" asp-controller="Account" asp-action="Logout"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+                <span class="w3-bar-item w3-hide-small w3-right">Xin chào @User.Identity.Name</span>
+            }
+            else
+            {
+                <button class="w3-bar-item w3-button w3-hide-small w3-hover-white" onclick="document.getElementById('id01').style.display='block'">
+                    <i class="fas fa-sign-in-alt"></i> Đăng nhập
+                </button>
+                <a asp-controller="Account" asp-action="Register" class="w3-bar-item w3-button w3-hide-small w3-hover-white">
+                    <i class="fas fa-user-plus"></i> Đăng ký
+                </a>
+            }
+            <a asp-controller="Home" asp-action="AdvancedSearch" class="w3-bar-item w3-button w3-hide-small w3-hover-white">
+                Tìm kiếm theo tag
+            </a>
+        </div>
+    </div>
+
+    <!-- Modal login -->
+    <div id="id01" class="w3-modal">
+        <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+
+            <div class="w3-center">
+                <br>
+                <span onclick="document.getElementById('id01').style.display='none'"
+                      class="w3-button w3-xlarge w3-transparent w3-display-topright" title="Close Modal">×</span>
+                <i class="w3-text-green w3-xxlarge fa fa-user"></i>
+            </div>
+
+            <form class="w3-container" asp-controller="Account" asp-action="Login">
+                <div class="w3-section">
+                    <label><b>Username</b></label>
+                    <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Username/Email" name="username" required>
+                    <label><b>Password</b></label>
+                    <input class="w3-input w3-border" type="password" placeholder="Enter Password" name="password" required>
+                    <button class="w3-button w3-block w3-green w3-section w3-padding" type="submit">Đăng nhập</button>
+                    <input class="w3-check w3-margin-top" type="checkbox" checked="checked"> Lưu mật khẩu
+                </div>
+            </form>
+
+            <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+                <button onclick="document.getElementById('id01').style.display='none'" type="button"
+                        class="w3-button w3-red">
+                    Cancel
+                </button>
+                <span class="w3-right w3-padding w3-hide-small">Quên <a href="#">mật khẩu?</a></span>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <nav class="w3-sidebar w3-bar-block w3-collapse w3-large w3-theme-l5 w3-animate-left" id="mySidebar">
+        <a href="javascript:void(0)" onclick="w3_close()"
+           class="w3-right w3-xlarge w3-padding-large w3-hover-black w3-hide-large" title="Close Menu">
+            <i class="fa fa-remove"></i>
+        </a>
+        <h4 class="w3-bar-item"><b>Menu</b></h4>
+        <a class="w3-bar-item w3-button w3-hover-green" asp-controller="Article" asp-action="Publish">Đăng bài viết <i class="fas fa-pencil-alt"></i> </a>
+        <a class="w3-bar-item w3-button w3-hover-green" asp-controller="Discussion" asp-action="Publish">Đặt câu hỏi mới <i class="fas fa-question"></i> </a>
+        <a class="w3-bar-item w3-button w3-hover-green" asp-controller="Home" asp-action="Following">Đang theo dõi <i class="fas fa-star"></i> </a>
+        <a class="w3-bar-item w3-button w3-hover-green" asp-controller="Article" asp-action="Trending">Thịnh hành <i class="fas fa-fire-alt"></i> </a>
+        <a class="w3-bar-item w3-button w3-hover-green" asp-controller="Home" asp-action="AllBookmarks">Đã bookmark <i class="fas fa-bookmark"></i> </a>
+    </nav>
+
+    <!-- Overlay effect when opening sidebar on small screens -->
+    <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu"
+         id="myOverlay"></div>
+
+    <!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
+    <div class="w3-main" style="margin-left:250px">
+        @RenderBody()
+
+        <footer id="myFooter">
+            <div class="w3-container w3-theme-dark w3-padding-32">
+                <h4>&copy; COPYRIGHT LOLOLOL</h4>
+            </div>
+        </footer>
+        <script type="text/javascript" src="~/js/site.js"></script>
+        <!-- END MAIN -->
+    </div>
+</body>
+
+</html>

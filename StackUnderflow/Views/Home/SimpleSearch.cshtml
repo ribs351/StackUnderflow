@@ -1,0 +1,94 @@
+﻿@{
+    var searcheddiscussions = (List<DiscussionIndexModel>)ViewBag.SearchedDiscussions;
+}
+
+@model List<ArticleIndexModel>
+
+<div class="w3-row w3-padding-64">
+    <div class="w3-twothird w3-container">
+        <h1 class="w3-text-green w3-border-bottom">Bài viết có từ khóa @TempData["keyword"]</h1>
+        @if (Model.Count == 0)
+        {
+            <p>Không tìm thấy kết quả nào...</p>
+        }
+        else
+        {
+            foreach (var article in Model)
+            {
+                <div class="w3-row w3-border-bottom">
+                    <p><small>Author: <a href="#"> @article.UserName</a> posted at: @article.DatePosted.ToString("dd/MM/yyyy hh:mm:ss tt")</small></p>
+                    <h3>
+                        <a class="w3-text-blue w3-hover-red" style="text-decoration: none" asp-controller="Article" asp-action="Article" asp-route-id="@article.Id">@article.ArticleName</a>
+                    </h3>
+                    <p>
+                        Tags:
+                        @foreach (var tag in article.Tags)
+                        {
+                            <a class="w3-tag w3-teal w3-hover-red" asp-controller="Article" asp-action="ArticleByTag" asp-route-id="@tag.Id">@tag.Name</a>
+                        }
+
+                    </p>
+                    <p>
+                        <span class="w3-tooltip">
+                            <i class="fas fa-eye"></i><span class="w3-text w3-tag w3-white w3-animate-opacity">Lượt xem:</span>@article.ViewCount
+                        </span>
+                        <span class="w3-tooltip">
+                            <i class="fas fa-bookmark"></i><span class="w3-text w3-tag w3-white w3-animate-opacity">Bookmark:</span>@article.BookmarkCount
+                        </span>
+                        <span class="w3-tooltip">
+                            <i class="fas fa-comments"></i><span class="w3-text w3-tag w3-white w3-animate-opacity">Bình luận:</span>@article.CommentCount
+                        </span>
+                    </p>
+                </div>
+            }
+        }
+
+    </div>
+    <div class="w3-third w3-container">
+        <h2 class="w3-text-green w3-border-bottom">Câu hỏi có từ khóa @TempData["keyword"]</h2>
+        @if (searcheddiscussions.Count == 0)
+        {
+            <p>Không tìm thấy kết quả nào...</p>
+        }
+        else
+        {
+            foreach (var item in searcheddiscussions)
+            {
+                <div class="w3-row w3-padding-32 w3-border-bottom">
+                    <h5>
+                        <a class="w3-text-blue w3-hover-red" style="text-decoration: none" asp-controller="Discussion" asp-action="Discussion" asp-route-id="@item.Id">
+                            @item.DiscussionName
+                        </a>
+                    </h5>
+                    <p>
+                        <span class="w3-tooltip">
+                            <i class="fas fa-eye"></i><span class="w3-text w3-tag w3-white w3-animate-opacity">Lượt xem:</span>@item.ViewCount
+                        </span>
+                        <span class="w3-tooltip">
+                            <i class="fas fa-reply"></i><span class="w3-text w3-tag w3-white w3-animate-opacity">Câu trả lời:</span> 0
+                        </span>
+                        <span class="w3-tooltip">
+                            <i class="fas fa-comments"></i><span class="w3-text w3-tag w3-white w3-animate-opacity">Bình luận:</span>0
+                        </span>
+                    </p>
+                    <p><small><a href="#">Author name: @item.UserName</a></small></p>
+                </div>
+            }
+        }
+
+
+    </div>
+</div>
+
+
+<!-- Pagination -->
+<div class="w3-center w3-padding-32">
+    <div class="w3-bar">
+        <a class="w3-button w3-black" href="#">1</a>
+        <a class="w3-button w3-hover-black" href="#">2</a>
+        <a class="w3-button w3-hover-black" href="#">3</a>
+        <a class="w3-button w3-hover-black" href="#">4</a>
+        <a class="w3-button w3-hover-black" href="#">5</a>
+        <a class="w3-button w3-hover-black" href="#">»</a>
+    </div>
+</div>

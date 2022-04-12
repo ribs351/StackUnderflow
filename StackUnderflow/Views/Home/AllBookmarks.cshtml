@@ -1,0 +1,136 @@
+﻿@{
+    var discussions = (List<DiscussionIndexModel>)ViewBag.BookmarkedDiscussions;
+
+ }
+
+@model List<ArticleIndexModel>
+
+<div class="w3-container w3-padding-64">
+    <h1 class="w3-text-green w3-border-bottom">Bookmark của bạn</h1>
+    <div class="w3-row">
+        <a href="javascript:void(0)" onclick="openCity(event, 'Article');">
+            <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding w3-border-red">Article</div>
+        </a>
+        <a href="javascript:void(0)" onclick="openCity(event, 'Discussion');">
+            <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Discussion</div>
+        </a>
+    </div>
+
+    <div id="Article" class="w3-container city">
+        <div class="w3-row w3-padding-16">
+            <div class="w3-twothird w3-container">
+                @foreach (var article in Model)
+                {
+                    <div class="w3-row w3-border-bottom">
+                        <p><small>Author: <a href="#"> @article.UserName</a> posted at: @article.DatePosted.ToString("dd/MM/yyyy hh:mm:ss tt")</small></p>
+                        <h3>
+                            <a class="w3-text-blue w3-hover-red" style="text-decoration: none" asp-controller="Article" asp-action="Article" asp-route-id="@article.Id">@article.ArticleName</a>
+                        </h3>
+                        <p>
+                            Tags:
+                            @foreach (var tag in article.Tags)
+                            {
+                                <a class="w3-tag w3-teal w3-hover-red" asp-controller="Article" asp-action="ArticleByTag" asp-route-id="@tag.Id">@tag.Name</a>
+                            }
+
+                        </p>
+                        <p>
+                            <span class="w3-tooltip">
+                                <i class="fas fa-eye"></i><span class="w3-text w3-tag w3-white w3-animate-opacity">Lượt xem:</span>@article.ViewCount
+                            </span>
+                            <span class="w3-tooltip">
+                                <i class="fas fa-bookmark"></i><span class="w3-text w3-tag w3-white w3-animate-opacity">Bookmark:</span>@article.BookmarkCount
+                            </span>
+                            <span class="w3-tooltip">
+                                <i class="fas fa-comments"></i><span class="w3-text w3-tag w3-white w3-animate-opacity">Bình luận:</span>0
+                            </span>
+                        </p>
+                    </div>
+                }
+
+
+
+            </div>
+        </div>
+
+
+        <!-- Pagination -->
+        <div class="w3-center w3-padding-32">
+            <div class="w3-bar">
+                <a class="w3-button w3-black" href="#">1</a>
+                <a class="w3-button w3-hover-black" href="#">2</a>
+                <a class="w3-button w3-hover-black" href="#">3</a>
+                <a class="w3-button w3-hover-black" href="#">4</a>
+                <a class="w3-button w3-hover-black" href="#">5</a>
+                <a class="w3-button w3-hover-black" href="#">»</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="Discussion" class="w3-container city" style="display:none">
+        <div class="w3-row w3-padding-16">
+            <div class="w3-twothird w3-container">
+                @foreach (var discussion in discussions)
+                {
+                    <div class="w3-row w3-border-bottom">
+                        <p><small>Author: <a href="#"> @discussion.UserName</a> posted at: @discussion.DatePosted.ToString("dd/MM/yyyy hh:mm:ss tt")</small></p>
+                        <h3>
+                            <a class="w3-text-blue w3-hover-red" style="text-decoration: none" asp-controller="Discussion" asp-action="Discussion" asp-route-id="@discussion.Id">@discussion.DiscussionName</a>
+                        </h3>
+                        <p>
+                            Tags:
+                            @foreach (var tag in discussion.Tags)
+                            {
+                                <a class="w3-tag w3-teal w3-hover-red" asp-route-id="@tag.Id">@tag.Name</a>
+                            }
+
+                        </p>
+                        <p>
+                            <span class="w3-tooltip">
+                                <i class="fas fa-eye"></i><span class="w3-text w3-tag w3-white w3-animate-opacity">Lượt xem:</span>@discussion.ViewCount
+                            </span>
+                            <span class="w3-tooltip">
+                                <i class="fas fa-bookmark"></i><span class="w3-text w3-tag w3-white w3-animate-opacity">Bookmark:</span>@discussion.BookmarkCount
+                            </span>
+                            <span class="w3-tooltip">
+                                <i class="fas fa-comments"></i><span class="w3-text w3-tag w3-white w3-animate-opacity">Bình luận:</span>0
+                            </span>
+                        </p>
+                    </div>
+                }
+
+
+
+            </div>
+        </div>
+
+
+        <!-- Pagination -->
+        <div class="w3-center w3-padding-32">
+            <div class="w3-bar">
+                <a class="w3-button w3-black" href="#">1</a>
+                <a class="w3-button w3-hover-black" href="#">2</a>
+                <a class="w3-button w3-hover-black" href="#">3</a>
+                <a class="w3-button w3-hover-black" href="#">4</a>
+                <a class="w3-button w3-hover-black" href="#">5</a>
+                <a class="w3-button w3-hover-black" href="#">»</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    function openCity(evt, cityName) {
+        var i, x, tablinks;
+        x = document.getElementsByClassName("city");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablink");
+        for (i = 0; i < x.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" w3-border-red", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.firstElementChild.className += " w3-border-red";
+    }
+</script>

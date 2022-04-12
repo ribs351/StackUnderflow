@@ -1,0 +1,125 @@
+﻿@{
+    var articleComments = (List<ArticleCommentModel>)ViewBag.ArticleComments;
+}
+@using System.Security.Claims;
+@model ArticleDetailsModel
+
+<div class="w3-row w3-padding-64">
+    <div class="w3-twothird w3-container">
+        <h1 class="w3-text-green w3-border-bottom">@Model.Title</h1>
+        <div class="w3-row w3-border-bottom">
+            @if (Model.Owner == true)
+            {
+                <a class="w3-btn w3-teal w3-hover-red w3-right" asp-controller="Article" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+                <a class="w3-btn w3-red w3-hover-white w3-right" asp-controller="Article" asp-action="Remove" asp-route-id="@Model.Id">Remove</a>
+            }
+            <p><small>Author: <a href="#">@Model.UserName</a> posted at: @Model.DatePosted.ToString("dd/MM/yyyy hh:mm:ss tt")</small></p>
+
+            <p>
+                Tags:
+                @foreach (var tag in Model.Tags)
+                {
+                    <a class="w3-tag w3-teal w3-hover-red" asp-controller="Article" asp-action="ArticleByTag" asp-route-id="@tag.Id">@tag.Name</a>
+                }
+
+            </p>
+
+            <div id="articlebox" class="w3-container w3-padding-16">
+                @Html.Raw(Model.Text)
+            </div>
+            @{
+                await Html.RenderPartialAsync("_Comment", new ArticleCommentModel { ArticleId = Model.Id });
+            }
+            @foreach (var c in articleComments)
+            {
+                <div class="w3-container w3-card w3-white w3-round w3-margin">
+                    <br>
+                    <img src="https://www.w3schools.com/w3images/avatar5.png" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
+                    <span class="w3-right w3-opacity">@c.DatePosted</span>
+                    <h4>@c.UserName</h4><br>
+                    <hr class="w3-clear">
+                    <p>@Html.Raw(c.Message)</p>
+                </div>
+            }
+
+        </div>
+    </div>
+
+    <!-- Other sidebar lol-->
+    <div class="w3-third w3-container w3-sidebar w3-bar-block w3-card w3-collapse w3-large" style="width:25%;right:0;">
+        <div class="w3-card w3-round">
+            <div class="w3-container">
+                <h4 class="w3-center">@Model.UserName</h4>
+                <div class="w3-center">
+                    <img src="https://www.w3schools.com/w3images/avatar3.png" class="w3-circle"
+                         style="height:106px;width:106px" alt="Avatar">
+                </div>
+                <hr>
+                <div class="w3-center">
+                    @if (User.Identity.Name != null)
+                    {
+                        var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                        var user = new Guid(userID);
+                        if (user != Model.UserId)
+                        {
+                            if (Model.Followed == true)
+                            {
+                                <button class="w3-button w3-red">
+                                    <span class="w3-tooltip">
+                                        <i class="fas fa-star"></i>
+                                        <span class="w3-text w3-tag w3-white w3-animate-opacity">@Html.ActionLink("Hủy theo dõi", "UnFollow", "Article", new { authorID = Model.UserId, articleID = Model.Id }, null)</span>
+                                    </span>
+                                </button>
+                            }
+                            else
+                            {
+                                <button class="w3-button w3-teal">
+                                    <span class="w3-tooltip">
+                                        <i class="fas fa-star"></i>
+                                        <span class="w3-text w3-tag w3-white w3-animate-opacity">@Html.ActionLink("Theo dõi", "Follow", "Article", new { authorID = Model.UserId, articleID = Model.Id }, null)</span>
+                                    </span>
+                                </button>
+                            }
+
+                        }
+
+                    }
+                    else
+                    {
+                        <button class="w3-button w3-teal">
+                            <span class="w3-tooltip">
+                                <i class="fas fa-star"></i>
+                                <span class="w3-text w3-tag w3-white w3-animate-opacity">@Html.ActionLink("Theo dõi", "Follow", "Article", new { authorID = Model.UserId, articleID = Model.Id }, null)</span>
+                            </span>
+                        </button>
+                    }
+                    @{
+                        {
+                            if (Model.Bookmarked == true)
+                            {
+                                <a class="w3-button w3-red" asp-controller="Article" asp-action="UnBookmark" asp-route-id="@Model.Id">
+                                    <span class="w3-tooltip">
+                                        <i class="fas fa-bookmark"></i>
+                                        <span class="w3-text w3-tag w3-white w3-animate-opacity">Hủy Bookmark</span>
+                                    </span>
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="w3-button w3-teal" asp-controller="Article" asp-action="Bookmark" asp-route-id="@Model.Id">
+                                    <span class="w3-tooltip">
+                                        <i class="fas fa-bookmark"></i>
+                                        <span class="w3-text w3-tag w3-white w3-animate-opacity">Bookmark</span>
+                                    </span>
+                                </a>
+                            }
+                        }
+                    }
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

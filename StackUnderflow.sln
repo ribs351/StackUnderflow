@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31410.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StackUnderflow", "StackUnderflow\StackUnderflow.csproj", "{83CDD600-DFEF-4DDB-8A79-6623C0EAB65C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{8130CD7E-DA32-4713-9933-30E23B019FD5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{83CDD600-DFEF-4DDB-8A79-6623C0EAB65C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83CDD600-DFEF-4DDB-8A79-6623C0EAB65C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83CDD600-DFEF-4DDB-8A79-6623C0EAB65C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83CDD600-DFEF-4DDB-8A79-6623C0EAB65C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8130CD7E-DA32-4713-9933-30E23B019FD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8130CD7E-DA32-4713-9933-30E23B019FD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8130CD7E-DA32-4713-9933-30E23B019FD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8130CD7E-DA32-4713-9933-30E23B019FD5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C40C7683-C324-423E-AF2E-E3061C6EA02D}
+	EndGlobalSection
+EndGlobal
